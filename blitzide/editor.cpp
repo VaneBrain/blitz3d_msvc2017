@@ -644,7 +644,7 @@ void Editor::en_msgfilter( NMHDR *nmhdr,LRESULT *result ){
 			selEnd=editCtrl.LineIndex( lineEnd );
 			setSel();*result=1;
 			editCtrl.HideSelection( false,false );
-		}else if( msg->wParam==13 ){
+		/*}else if( msg->wParam==13 ){
 			if( selStart!=selEnd ) return;
 			int k;
 			int ln=editCtrl.LineFromChar( selStart );
@@ -653,7 +653,7 @@ void Editor::en_msgfilter( NMHDR *nmhdr,LRESULT *result ){
 			for( k=0;k<pos && line[k]=='\t';++k ){}
 			line="\r\n"+line.substr( 0,k )+'\0';
 			editCtrl.ReplaceSel( line.data(),true );
-			*result=1;
+			*result=1;*/
 		}
 	}
 	caret();
