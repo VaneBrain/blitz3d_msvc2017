@@ -5,8 +5,8 @@ To build Blitz3D you will need:
 
 * Visual Studio Community 2017. Install "Desktop development with C++" plus "MFC and ATL support" plus "ASP.NET and web development".
 
-Too lazt to build? Grab the prebuilt versions:
-    V1.109 from https://github.com/davecamp/blitz3d_msvc2017/releases/tag/v1.109
+Too lazy to build? Grab the prebuilt versions:
+    V1.110 from https://github.com/davecamp/blitz3d_msvc2017/releases/tag/v1.110
     V1.108 from https://blitzresearch.itch.io/
 
 Steps to build:
