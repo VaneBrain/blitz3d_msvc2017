@@ -18,7 +18,7 @@ float bbASin( float n ){ return (float)asin(n)*rtod; }
 float bbACos( float n ){ return (float)acos(n)*rtod; }
 float bbATan( float n ){ return (float)atan(n)*rtod; }
 float bbATan2( float n,float t ){ return (float)atan2(n,t)*rtod; }
-float bbSqr( float n ){ return (float)sqrt(n); }
+float bbSqr( float n ){ return (float)sqrtf(n); }
 float bbFloor( float n ){ return (float)floor(n); }
 float bbCeil( float n ){ return (float)ceil(n); }
 float bbExp( float n ){ return (float)exp(n); }
@@ -29,6 +29,9 @@ float bbLog10( float n ){ return (float)log10(n); }
 static inline float rnd(){
 	rnd_state=RND_A*(rnd_state%RND_Q)-RND_R*(rnd_state/RND_Q);
 	if( rnd_state<0 ) rnd_state+=RND_M;
+	if (rnd_state == 0) {
+		rnd_state = RND_R;
+	}
 	return (rnd_state&65535)/65536.0f+(.5f/65536.0f);
 }
 

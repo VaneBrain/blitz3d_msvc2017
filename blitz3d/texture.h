@@ -24,6 +24,9 @@ public:
 	void setPosition( float u_pos,float v_pos );
 	void setBlend( int blend );
 	void setFlags( int flags );
+	void setBumpEnvMat(int x, int y, float envmat);
+	void setBumpEnvScale(float envscale);
+	void setBumpEnvOffset(float envoffset);
 
 	int getCanvasFlags()const;
 	gxCanvas *getCanvas( int frame )const;
@@ -31,6 +34,9 @@ public:
 	int getBlend()const;
 	int getFlags()const;
 	CachedTexture *getCachedTexture()const;
+	DWORD getBumpEnvMat(int x, int y)const;
+	DWORD getBumpEnvScale()const;
+	DWORD getBumpEnvOffset()const;
 
 	bool isTransparent()const;
 	bool operator<( const Texture &t )const;
