@@ -21,6 +21,9 @@ struct SoundChannel : public gxChannel{
 	void setPitch( int pitch ){
 		FSOUND_SetFrequency( channel,pitch );
 	}
+	void setPitchPercent(float percent) {
+		FSOUND_SetFrequency(channel, FSOUND_GetFrequency(channel)*percent);
+	}
 	void setVolume( float volume ){
 		FSOUND_SetVolume( channel,volume * 255.0f );
 	}
@@ -53,6 +56,8 @@ struct CDChannel : public gxChannel{
 		FSOUND_CD_SetPaused( 0,paused );
 	}
 	void setPitch( int pitch ){
+	}
+	void setPitchPercent(float percent) {
 	}
 	void setVolume( float volume ){
 		FSOUND_CD_SetVolume( 0,volume*255.0f );
@@ -87,6 +92,9 @@ struct StreamChannel : public StaticChannel{
 	void setPitch( int pitch ){
 		FSOUND_SetFrequency( channel,pitch );
 	}
+	void setPitchPercent(float percent) {
+		FSOUND_SetFrequency(channel, FSOUND_GetFrequency(channel)*percent);
+	}
 	void setVolume( float volume ){
 		FSOUND_SetVolume( channel,volume * 255.0f );
 	}
@@ -120,6 +128,8 @@ struct MusicChannel : public StaticChannel{
 		FMUSIC_SetPaused( module,paused );
 	}
 	void setPitch( int pitch ){
+	}
+	void setPitchPercent(float percent) {
 	}
 	void setVolume( float volume ){
 		FMUSIC_SetMasterVolume( module,volume*255.0f );
@@ -237,6 +247,9 @@ void gxAudio::setPaused( bool paused ){
 }
 
 void gxAudio::setVolume( float volume ){
+}
+
+void gxAudio::setPitchPercent(float percent) {
 }
 
 void gxAudio::set3dOptions( float roll,float dopp,float dist ){

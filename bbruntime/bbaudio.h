@@ -20,6 +20,7 @@ void		 bbStopChannel( gxChannel *channel );
 void		 bbPauseChannel( gxChannel *channel );
 void		 bbResumeChannel( gxChannel *channel );
 void		 bbChannelPitch( gxChannel *channel,int pitch );
+void		 bbChannelPitchPercent(gxChannel *channel, float percent);
 void		 bbChannelVolume( gxChannel *channel,float volume );
 void		 bbChannelPan( gxChannel *channel,float pan );
 int			 bbChannelPlaying( gxChannel *channel );

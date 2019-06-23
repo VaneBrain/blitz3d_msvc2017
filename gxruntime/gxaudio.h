@@ -36,6 +36,7 @@ public:
 
 	void setPaused( bool paused );	//master pause
 	void setVolume( float volume );	//master volume
+	void setPitchPercent(float percent);
 
 	void set3dOptions( float roll,float dopp,float dist );
 

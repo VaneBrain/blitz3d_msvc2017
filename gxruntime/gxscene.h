@@ -36,6 +36,7 @@ public:
 		FX_NOFOG=		0x0008,
 		FX_DOUBLESIDED=	0x0010,
 		FX_VERTEXALPHA=	0x0020,
+		FX_WIREFRAME=   0x0040,
 
 		FX_ALPHATEST=	0x2000,
 		FX_CONDLIGHT=	0x4000,
@@ -57,7 +58,9 @@ public:
 	};
 	enum{
 		FOG_NONE=		0,
-		FOG_LINEAR=		1
+		FOG_EXP=		1,
+		FOG_EXP2=		2,
+		FOG_LINEAR=		3
 	};
 	enum{
 		TEX_COORDS2=	0x0001
@@ -93,6 +96,7 @@ public:
 	void setAmbient2( const float rgb[3] );
 	void setFogColor( const float rgb[3] );
 	void setFogRange( float nr,float fr );
+	void setFogDensity(float den);
 	void setFogMode( int mode );
 	void setZMode( int mode );
 	void setViewport( int x,int y,int w,int h );
@@ -122,7 +126,7 @@ private:
 	bool wbuffer,dither,antialias,wireframe,flipped;
 	unsigned ambient,ambient2,fogcolor;
 	int caps_level,fogmode,zmode;
-	float fogrange_nr,fogrange_fr;
+	float fogrange_nr,fogrange_fr,fog_density;
 	D3DVIEWPORT7 viewport;
 	bool ortho_proj;
 	float frustum_nr,frustum_fr,frustum_w,frustum_h;

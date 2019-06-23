@@ -1149,6 +1149,22 @@ void gxRuntime::graphicsModeInfo( int driver,int mode,int *w,int *h,int *d,int *
 	*c=caps;
 }
 
+void gxRuntime::dpiInfo(float *scale_x, float *scale_y) {
+	static bool calculated = false;
+	static float _scale_x = 1.0f, _scale_y = 1.0f;
+
+	if (!calculated) {
+		HDC hdc = GetDC(GetDesktopWindow());
+		_scale_x = GetDeviceCaps(hdc, LOGPIXELSX) / 96.0f;
+		_scale_y = GetDeviceCaps(hdc, LOGPIXELSY) / 96.0f;
+		ReleaseDC(GetDesktopWindow(), hdc);
+		calculated = true;
+	}
+
+	*scale_x = _scale_x;
+	*scale_y = _scale_y;
+}
+
 void gxRuntime::windowedModeInfo( int *c ){
 	int caps=0;
 #ifdef PRO

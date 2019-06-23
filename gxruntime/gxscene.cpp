@@ -110,6 +110,7 @@ n_texs(0),tris_drawn(0){
 	ambient2=~0;setAmbient2( BLACK );
 	fogcolor=~0;setFogColor( BLACK );
 	fogrange_nr=fogrange_fr=0;setFogRange( 1,1000 );
+	fog_density = 0.0; setFogDensity(1.0);
 	fogmode=FOG_LINEAR;setFogMode( FOG_NONE );
 	zmode=-1;setZMode( ZMODE_NORMAL );
 	memset(&projmatrix,0,sizeof(projmatrix));
@@ -144,10 +145,9 @@ void gxScene::setTexState( int n,const TexState &state,bool tex_blend ){
 	setTSS( n,D3DTSS_MINFILTER, (flags & gxCanvas::CANVAS_TEX_POINT) ? D3DTFN_POINT : D3DTFN_LINEAR);
 	setTSS( n,D3DTSS_MAGFILTER, (flags & gxCanvas::CANVAS_TEX_POINT) ? D3DTFG_POINT : D3DTFG_LINEAR);
 	setTSS( n,D3DTSS_MIPFILTER, (flags & gxCanvas::CANVAS_TEX_POINT) ? D3DTFP_POINT : D3DTFP_LINEAR);
-	setTSS( n, D3DTSS_MINFILTER, (flags & gxCanvas::CANVAS_TEX_ANISOTROPIC) ? D3DTFN_ANISOTROPIC : D3DTFN_LINEAR);
-	setTSS( n, D3DTSS_MAGFILTER, (flags & gxCanvas::CANVAS_TEX_ANISOTROPIC) ? D3DTFG_ANISOTROPIC : D3DTFG_LINEAR);
-	setTSS( n, D3DTSS_MIPFILTER, (flags & gxCanvas::CANVAS_TEX_ANISOTROPIC) ? D3DTFP_NONE : D3DTFP_LINEAR);
-	//setTSS( n, D3DTSS_MAXANISOTROPY, (flags & gxCanvas::CANVAS_TEX_ANISOTROPIC) ? 1 : 0);
+	setTSS( n, D3DTSS_MINFILTER, (flags & gxCanvas::CANVAS_TEX_NOBILINEAR) ? D3DTFN_POINT : D3DTFN_LINEAR);
+	setTSS( n, D3DTSS_MAGFILTER, (flags & gxCanvas::CANVAS_TEX_NOBILINEAR) ? D3DTFG_POINT : D3DTFG_LINEAR);
+	setTSS( n, D3DTSS_MIPFILTER, (flags & gxCanvas::CANVAS_TEX_NOBILINEAR) ? D3DTFP_NONE : D3DTFP_LINEAR);
 
 	//texgen
 	switch( flags&(
@@ -268,9 +268,32 @@ void gxScene::setAmbient(){
 	setRS( D3DRENDERSTATE_AMBIENT,n );
 }
 
-void gxScene::setFogMode(){
+/*void gxScene::setFogMode(){
 	bool fog= fogmode==FOG_LINEAR && !(fx&FX_NOFOG);
 	setRS( D3DRENDERSTATE_FOGENABLE,fog );
+}*/
+void gxScene::setFogMode() {
+	if (!!(fx&FX_NOFOG)) {
+		setRS(D3DRENDERSTATE_FOGENABLE, false);
+		return;
+	}
+	switch (fogmode) {
+	case FOG_NONE:
+		setRS(D3DRENDERSTATE_FOGENABLE, false);
+		break;
+	case FOG_EXP:
+		setRS(D3DRENDERSTATE_FOGENABLE, true);
+		setRS(D3DRENDERSTATE_FOGTABLEMODE, D3DFOG_EXP);
+		break;
+	case FOG_EXP2:
+		setRS(D3DRENDERSTATE_FOGENABLE, true);
+		setRS(D3DRENDERSTATE_FOGTABLEMODE, D3DFOG_EXP2);
+		break;
+	case FOG_LINEAR:
+		setRS(D3DRENDERSTATE_FOGENABLE, true);
+		setRS(D3DRENDERSTATE_FOGTABLEMODE, D3DFOG_LINEAR);
+		break;
+	}
 }
 
 void gxScene::setTriCull(){
@@ -313,7 +336,7 @@ void gxScene::setAntialias( bool n ){
 
 void gxScene::setWireframe( bool n ){
 	if( n==wireframe ) return;
-	wireframe=n;setRS( D3DRENDERSTATE_FILLMODE,wireframe ? D3DFILL_WIREFRAME : D3DFILL_SOLID );
+	wireframe=n;//setRS( D3DRENDERSTATE_FILLMODE,wireframe ? D3DFILL_WIREFRAME : D3DFILL_SOLID );
 }
 
 void gxScene::setFlippedTris( bool n ){
@@ -378,6 +401,12 @@ void gxScene::setFogRange( float nr,float fr ){
 	fogrange_nr=nr;fogrange_fr=fr;
 	setRS( D3DRENDERSTATE_FOGSTART,*(DWORD*)&fogrange_nr );
 	setRS( D3DRENDERSTATE_FOGEND,*(DWORD*)&fogrange_fr );
+}
+
+void gxScene::setFogDensity(float den) {
+	if (den == fog_density) return;
+	fog_density=den;
+	setRS(D3DRENDERSTATE_FOGDENSITY, *(DWORD*)&fog_density);
 }
 
 void gxScene::setFogMode( int n ){
@@ -481,6 +510,9 @@ void gxScene::setRenderState( const RenderState &rs ){
 		if( t&FX_DOUBLESIDED ){
 			setTriCull();
 		}
+		if (!wireframe && t&FX_WIREFRAME) {
+			setRS(D3DRENDERSTATE_FILLMODE, fx&FX_WIREFRAME ? D3DFILL_WIREFRAME : D3DFILL_SOLID);
+		}
 		if( t&FX_EMISSIVE ){
 			//Q3 Hack!
 			int n=fx & FX_EMISSIVE;
@@ -568,6 +600,8 @@ bool gxScene::begin( const vector<gxLight*> &lights ){
 		}
 	}
 	setLights();
+
+	setRS(D3DRENDERSTATE_FILLMODE, wireframe ? D3DFILL_WIREFRAME : D3DFILL_SOLID);
 
 	return true;
 }

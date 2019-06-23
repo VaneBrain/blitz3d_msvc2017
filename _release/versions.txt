@@ -1,3 +1,44 @@
+***** V1.112 *****
+
+New functions:
+* DPIScaleX and DPIScaleY (by kfprimm).
+* ChannelPitchPercent for changing pitch of the channel by typing percent value instead of hertz.
+
+Added wireframe flag 64 to EntityFX (by kfprimm).
+
+
+***** V1.111 *****
+
+Updated SystemProperty function to recognize Windows 8, 8.1 and 10 (altho it recognizes them all at ones). Also added architecture property.
+
+New functions: 
+* EntityDistanceSquared (same as EntityDistance.. but squared).
+* TextureLODBias (by juanjpro)
+* Functions for checking memory information: MemoryLoad, TotalPhys, AvailPhys, TotalVirtual, AvailVirtual.
+* InFocus (for checking if the application is in focus or not).
+* DesktopWidth and DesktopHeight for getting user's desktop resolution.
+
+New TextureBlend mode 6 for bump mapping (by juanjpro).
+New Graphics mode 4 for Borderless windowed mode.
+
+Fixed an RNG edge case (by juanjpro).
+If rnd_state=RND_M, the next call to rnd would change it to 0, which is invalid. 
+
+Fixed collision issues (by juanjpro).
+Vector normalization did not check if the length was 0, so there were some edge cases that would send everything to NaN.
+
+Fixed DebugLog and Stop functions working even with debug been disabled (by juanjpro).
+
+
+***** V1.110 *****
+
+Fixed BlitzIDE skipping a line when you press ENTER (by davecamp).
+
+
+***** V1.109 *****
+
+Added texture point sampling flag 1024 (by davecamp).
+
 
 ***** V1.108b *****
 

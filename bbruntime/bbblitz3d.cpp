@@ -943,6 +943,11 @@ void  bbCameraFogRange( Camera *c,float nr,float fr ){
 	c->setFogRange( nr,fr );
 }
 
+void  bbCameraFogDensity(Camera *c, float den) {
+	debugCamera(c);
+	c->setFogDensity(den);
+}
+
 void  bbCameraFogColor( Camera *c,float r,float g,float b ){
 	debugCamera(c);
 	c->setFogColor( Vector( r*ctof,g*ctof,b*ctof ) );
@@ -2133,6 +2138,7 @@ void blitz3d_link( void (*rtSym)( const char *sym,void *pc ) ){
 	rtSym( "CameraViewport%camera%x%y%width%height",bbCameraViewport );
 	rtSym( "CameraFogColor%camera#red#green#blue",bbCameraFogColor );
 	rtSym( "CameraFogRange%camera#near#far",bbCameraFogRange );
+	rtSym( "CameraFogDensity%camera#density",bbCameraFogDensity );
 	rtSym( "CameraFogMode%camera%mode",bbCameraFogMode );
 	rtSym( "CameraProject%camera#x#y#z",bbCameraProject );
 	rtSym( "#ProjectedX",bbProjectedX );

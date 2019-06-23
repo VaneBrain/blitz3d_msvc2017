@@ -88,6 +88,11 @@ void bbChannelPitch( gxChannel *channel,int pitch ){
 	channel->setPitch( pitch );
 }
 
+void bbChannelPitchPercent(gxChannel *channel, float percent) {
+	if (!channel) return;
+	channel->setPitchPercent(percent);
+}
+
 void bbChannelVolume( gxChannel *channel,float volume ){
 	if( !channel ) return;
 	channel->setVolume( volume );
@@ -133,6 +138,7 @@ void audio_link( void(*rtSym)(const char*,void*) ){
 	rtSym( "PauseChannel%channel",bbPauseChannel );
 	rtSym( "ResumeChannel%channel",bbResumeChannel );
 	rtSym( "ChannelPitch%channel%pitch",bbChannelPitch );
+	rtSym( "ChannelPitchPercent%channel#percent", bbChannelPitchPercent);
 	rtSym( "ChannelVolume%channel#volume",bbChannelVolume );
 	rtSym( "ChannelPan%channel#pan",bbChannelPan );
 	rtSym( "%ChannelPlaying%channel",bbChannelPlaying );

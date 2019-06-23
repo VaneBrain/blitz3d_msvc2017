@@ -26,6 +26,8 @@ int		 bbGraphicsHeight();
 int		 bbGraphicsDepth();
 int		 bbAvailVidMem();
 int		 bbTotalVidMem();
+float	 bbDPIScaleX();
+float	 bbDPIScaleY();
 
 //mode functions
 void	 bbGraphics( int w,int h,int d,int mode );
